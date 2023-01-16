@@ -7,12 +7,7 @@ export const ContactFilter = ({ filter, onFilter }) => {
     <div>
       <label htmlFor="filter">Find contacts by name</label>
       <div>
-        <input
-          type="text"
-          name="filter"
-          value={filter}
-          onChange={onFilter}
-        />
+        <input type="text" name="filter" value={filter} onChange={onFilter} />
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 
 export class ContactForm extends Component {
-
   handleSubmit = evt => {
     evt.preventDefault();
     const form = evt.currentTarget;
@@ -29,6 +28,7 @@ export class ContactForm extends Component {
             value={this.name}
           />
         </label>
+        <br/>
         <label>
           Number
           <input
