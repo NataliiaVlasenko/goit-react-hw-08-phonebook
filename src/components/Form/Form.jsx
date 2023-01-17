@@ -8,9 +8,15 @@ export class ContactForm extends Component {
     const name = form.elements.name.value;
     const number = form.elements.number.value;
     const contact = { id: nanoid(), name, number };
-    // console.log(name);
-    // console.log(contact.id);
-    this.props.onSubmit(contact);
+
+    const nameInContacts = this.props.contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    if (nameInContacts) {
+      alert(`${name} is already in Contacts`);
+      return;
+    }
+
     form.reset();
   };
 
@@ -28,7 +34,7 @@ export class ContactForm extends Component {
             value={this.name}
           />
         </label>
-        <br/>
+
         <label>
           Number
           <input
