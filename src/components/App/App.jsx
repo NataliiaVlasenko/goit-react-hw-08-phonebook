@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ContactForm } from '../Form/Form';
 import { ContactList } from '../Contacts/Contacts';
 import { ContactFilter } from '../ContactFilter/ContactFilter';
-import {Container} from './App.styled';
+import { Container } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -52,8 +52,6 @@ export class App extends Component {
     }
     return filterContact;
   };
-
-
 
   render() {
     return (

@@ -1,6 +1,4 @@
 import propTypes from 'prop-types';
-// import { FilterBox, FilterInput } from './ContactFilterStyled';
-// import { FormLabel } from '../ContactForm/ContactFormStyled';
 
 export const ContactFilter = ({ filter, onFilter }) => {
   return (
