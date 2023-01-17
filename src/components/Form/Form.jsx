@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
+import {  Formik} from 'formik';
+import {FormInput, FormLabel, Input} from './Form.styled';
 
 export class ContactForm extends Component {
 
@@ -23,10 +25,14 @@ export class ContactForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} autoComplete="off">
-        <label>
+     
+      <Formik
+      initialValues={{ name: '', number: '' }}>
+      
+      <FormInput autoComplete="off" onSubmit={this.handleSubmit} >
+        <FormLabel>
           Name
-          <input
+          <Input
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -34,22 +40,27 @@ export class ContactForm extends Component {
             required
             value={this.name}
           />
-        </label>
+        </FormLabel>
 
-        <label>
+        <FormLabel>
           Number
-          <input
+          <Input
             type="tel"
             name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             value={this.number}
+            
           />
-        </label>
+            
+
+        </FormLabel>
 
         <button type="submit">Add contact</button>
-      </form>
+      </FormInput>
+
+      </Formik>
     );
   }
 }
