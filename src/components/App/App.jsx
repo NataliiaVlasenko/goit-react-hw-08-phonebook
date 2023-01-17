@@ -23,6 +23,15 @@ export class App extends Component {
     });
   };
 
+  onDeleteHandler = id => {
+    const filteredContacts = this.state.contacts.filter(
+      contact => contact.id !== id
+    );
+    this.setState(prevState => {
+      return { ...prevState, contacts: [...filteredContacts] };
+    });
+  };
+
   onFilterContacts = () => {
     let filterContact = [];
     if (this.state.filter) {
@@ -60,6 +69,7 @@ export class App extends Component {
           contacts={this.state.contacts}
           filter={this.state.filter}
           filterContacts={this.onFilterContacts}
+          onDelete={this.onDeleteHandler}
         ></ContactList>
       </Container>
     );
