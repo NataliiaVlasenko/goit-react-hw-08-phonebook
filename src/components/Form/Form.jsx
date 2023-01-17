@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 
 export class ContactForm extends Component {
+
   handleSubmit = evt => {
     evt.preventDefault();
     const form = evt.currentTarget;
@@ -16,7 +17,7 @@ export class ContactForm extends Component {
       alert(`${name} is already in Contacts`);
       return;
     }
-
+    this.props.onSubmit(contact);
     form.reset();
   };
 

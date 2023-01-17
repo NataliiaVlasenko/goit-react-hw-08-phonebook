@@ -17,6 +17,13 @@ export class App extends Component {
     number: '',
   };
 
+  onFormSubmit = ({ name, id, number }) => {
+    const contact = { name, id, number };
+    this.setState(({ contacts }) => {
+      return { contacts: [contact, ...contacts] };
+    });
+  };
+
   onFilter = e => {
     this.setState({
       filter: e.target.value,
@@ -46,12 +53,7 @@ export class App extends Component {
     return filterContact;
   };
 
-  onFormSubmit = ({ name, id, number }) => {
-    const contact = { name, id, number };
-    this.setState(({ contacts }) => {
-      return { contacts: [contact, ...contacts] };
-    });
-  };
+
 
   render() {
     return (
