@@ -20,12 +20,14 @@ export class ContactForm extends Component {
       return;
     }
     this.props.onSubmit(contact);
-    form.reset();
+    
+    form.elements.name.value = '';
+    form.elements.number.value = '';
   };
 
   render() {
     return (
-      <Formik initialValues={{ name: '', number: '' }}>
+      <Formik initialValues={{ name: '', number: '' }} >
         <FormInput autoComplete="off" onSubmit={this.handleSubmit}>
           <FormLabel>
             Name
