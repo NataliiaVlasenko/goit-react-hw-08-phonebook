@@ -6,36 +6,28 @@ import { Container } from './App.styled';
 
 export class App extends Component {
   state = {
-    contacts: [
-      
-    ],
+    contacts: [],
     filter: '',
     name: '',
     number: '',
   };
 
   componentDidMount() {
-    console.log('App componentDidMount');
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
 
-   const contacts = localStorage.getItem('contacts');
-   const parsedContacts = JSON.parse(contacts);
-
-     if (parsedContacts) {
+    if (parsedContacts) {
       this.setState({ contacts: parsedContacts });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-   console.log('App componentDidUpdate');
-
-     const nextContacts = this.state.contacts;
-     const prevContacts= prevState.contacts;
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
 
     if (nextContacts !== prevContacts) {
-      
       localStorage.setItem('contacts', JSON.stringify(nextContacts));
     }
-
   }
 
   onFormSubmit = ({ name, id, number }) => {
