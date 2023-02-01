@@ -18,10 +18,6 @@ export function ContactForm({ onSubmit, contacts }) {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    const form = evt.currentTarget;
-    setName(form.elements.name.value);
-    setNumber(form.elements.number.value);
-
     const contact = { id: nanoid(), name, number };
 
     const nameInContacts = contacts.find(
@@ -33,7 +29,6 @@ export function ContactForm({ onSubmit, contacts }) {
       return;
     }
     onSubmit(contact);
-    // console.log(contact);
     setName('');
     setNumber('');
    
