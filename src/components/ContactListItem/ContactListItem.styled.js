@@ -5,7 +5,8 @@ export const ListElement= styled.li`
   gap: 10px;
   display: flex;
   flex-direction: row;
- 
+  width: 100%;
+  justify-content: space-between;
   font-weight: 500;
  
 `;
