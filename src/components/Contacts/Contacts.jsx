@@ -1,27 +1,40 @@
 import React from 'react';
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 
-import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/contacts/contactsSelectors';
-import { getFilter } from 'redux/filter/filterSelectors';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+//import { getFilter } from 'redux/filter/filterSelectors';
+import { fetchContacts } from 'redux/contacts/contactsOperations';
 
 export const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  //console.log(contacts);
-  const filter = useSelector(getFilter);
 
-  const normalizedData = filter.toLowerCase();
-  const normalizedContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedData)
-  );
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
+  const filteredContacts = useSelector(state => state.filter);
+
+   useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  const searchContact = () => {
+    if (!filteredContacts) {
+      return contacts;
+    }
+    const normalizedData = filteredContacts.toLowerCase();
+    return contacts.filter(({ name }) =>
+      name.toLowerCase().includes(normalizedData)
+    );
+  };
+
+  const filteredList = searchContact();
 
   return (
     <ul>
-      {normalizedContacts.map(
+      {filteredList.map(
         (
-          { name, id, number } //filterContacts()
+          { name, id, phone } //filterContacts()
         ) => (
-          <ContactListItem key={id} name={name} id={id} number={number} />
+          <ContactListItem key={id} name={name} id={id} phone={phone} />
         )
       )}
     </ul>

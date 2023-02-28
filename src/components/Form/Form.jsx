@@ -4,36 +4,37 @@ import { Formik } from 'formik';
 import { FormInput, FormLabel, Input } from './Form.styled';
 
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contacts/contactsActions';
+//import { addContact } from 'redux/contacts/contactsActions';
+import { addContact } from 'redux/contacts/contactsOperations';
 
 export function ContactForm() {
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handleNameChange = event => {
     setName(event.target.value);
   };
 
   const handleNumberChange = event => {
-    setNumber(event.target.value);
+    setPhone(event.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    dispatch(addContact({ name, number }));
+    dispatch(addContact({ name, phone }));
     reset();
   };
 
   const reset = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   return (
-    <Formik initialValues={{ name: '', number: '' }}>
+    <Formik initialValues={{ name: '', phone: '' }}>
       <FormInput autoComplete="off" onSubmit={handleSubmit}>
         <FormLabel>
           Name
@@ -56,7 +57,7 @@ export function ContactForm() {
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            value={number}
+            value={phone}
             onChange={handleNumberChange}
           />
         </FormLabel>
