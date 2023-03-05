@@ -50,7 +50,7 @@ export default function LoginView() {
         type="email"
         name="email"
         pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
-        required
+        
         placeholder="Example user@mail.com"
         value={email}
         onChange={handleChange}
