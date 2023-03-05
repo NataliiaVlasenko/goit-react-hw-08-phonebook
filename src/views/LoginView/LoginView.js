@@ -49,6 +49,9 @@ export default function LoginView() {
         color="secondary"
         type="email"
         name="email"
+        pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
+        required
+        placeholder="Example user@mail.com"
         value={email}
         onChange={handleChange}
         
@@ -62,8 +65,12 @@ export default function LoginView() {
         name="password"
         value={password}
         onChange={handleChange}
-        
+        required
+        title="Enter your password"
+
       />
+
+
 
       
         <Button
