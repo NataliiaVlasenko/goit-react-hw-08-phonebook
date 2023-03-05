@@ -1,23 +1,45 @@
-import axios from 'axios';
 
-//https://63f9ba5dbeec322c57e6d42a.mockapi.io/contacts
-// API endpoint
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const instance = axios.create({
-  baseURL: 'https://63f9ba5dbeec322c57e6d42a.mockapi.io/contacts',
+export const contactsApi = createApi({
+  reducerPath: 'contacts',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://connections-api.herokuapp.com',
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.token;
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
+  tagTypes: ['Contact'],
+  endpoints: buider => ({
+    getContacts: buider.query({
+      query: () => '/contacts',
+      keepUnusedDataFor: 1,
+      providesTags: ['Contact'],
+    }),
+    addContact: buider.mutation({
+      query: data => ({
+        url: '/contacts',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Contact'],
+    }),
+    deleteContact: buider.mutation({
+      query: id => ({
+        url: `/contacts/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Contact'],
+    }),
+  }),
 });
 
-export const getContacts = async () => {
-  const { data } = await instance.get('/');
-  return data;
-};
-
-export const addContact = async contact => {
-  const { data } = await instance.post('/', contact);
-  return data;
-};
-
-export const deleteContact = async id => {
-  const { data } = await instance.delete(`/${id}`);
-  return data;
-};
+export const {
+  useGetContactsQuery,
+  useDeleteContactMutation,
+  useAddContactMutation,
+} = contactsApi;

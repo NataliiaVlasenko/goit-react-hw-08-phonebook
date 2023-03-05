@@ -2,40 +2,56 @@ import { useState } from 'react';
 
 import { Formik } from 'formik';
 import { FormInput, FormLabel, Input } from './Form.styled';
+import { nanoid } from 'nanoid';
+import { Notify } from 'notiflix';
 
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
 //import { addContact } from 'redux/contacts/contactsActions';
-import { addContact } from 'redux/contacts/contactsOperations';
+//import { addContact } from 'redux/contacts/contacts-operations';
+import {
+  useAddContactMutation,
+  useGetContactsQuery,
+} from 'services/api';
 
-export function ContactForm() {
-  const dispatch = useDispatch();
+const INITIAL_STATE = {
+  name: '',
+  number: '',
+};
 
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+function ContactForm() {
+  //const dispatch = useDispatch();
 
-  const handleNameChange = event => {
-    setName(event.target.value);
-  };
+  const [name, setName] = useState(INITIAL_STATE.name);
+  const [number, setNumber] = useState(INITIAL_STATE.number);
 
-  const handleNumberChange = event => {
-    setPhone(event.target.value);
-  };
+  // const nameInputId = nanoid();
+  // const numberInputId = nanoid();
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const { data: contacts } = useGetContactsQuery();
+  const [addContact] = useAddContactMutation();
 
-    dispatch(addContact({ name, phone }));
+  const onSubmit = event => {
+    event.preventDefault();
+    console.log(contacts);
+    if (
+      contacts && contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      return Notify.failure(`Contact '${name}' is already exist`);
+    }
+    const id = nanoid();
+    addContact({ id, name, number });
     reset();
   };
 
   const reset = () => {
-    setName('');
-    setPhone('');
+    setName(INITIAL_STATE.name);
+    setNumber(INITIAL_STATE.number);
   };
-
   return (
-    <Formik initialValues={{ name: '', phone: '' }}>
-      <FormInput autoComplete="off" onSubmit={handleSubmit}>
+    <Formik initialValues={{ name: '', number: '' }}>
+      <FormInput autoComplete="off" onSubmit={onSubmit}>
         <FormLabel>
           Name
           <Input
@@ -45,7 +61,7 @@ export function ContactForm() {
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
             value={name}
-            onChange={handleNameChange}
+            onChange={event => setName(event.target.value)}
           />
         </FormLabel>
 
@@ -57,8 +73,8 @@ export function ContactForm() {
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            value={phone}
-            onChange={handleNumberChange}
+            value={number}
+            onChange={event => setNumber(event.target.value)}
           />
         </FormLabel>
 
@@ -67,3 +83,5 @@ export function ContactForm() {
     </Formik>
   );
 }
+
+export default ContactForm;

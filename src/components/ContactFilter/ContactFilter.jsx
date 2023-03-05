@@ -1,27 +1,37 @@
-import { FiltrLabel, FiltrInput } from './ContactFilter.styled';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter } from 'redux/filter/filter-slice';
-//import { getFilter } from '../../redux/filter/filterSelectors';
+import { getFilter } from 'redux/contacts/contacts-selectors';
+import { filterContact } from 'redux/contacts/contacts-actions';
+import {FiltrInput, FiltrLabel} from './ContactFilter.styled';
 
-export const ContactFilter = () => {
-  const filter = useSelector(state => state.filter);
+
+
+const Filter = () => {
   const dispatch = useDispatch();
-
-  const onSetFilter = ({ target }) => {
-    dispatch(getFilter(target.value));
-  };
+  const filter = useSelector(getFilter);
 
   return (
-    <div>
-      <FiltrLabel htmlFor="filter">Find contacts by name</FiltrLabel>
-      <div>
+    <div >
+      <FiltrLabel>
+        Find contacts by name
         <FiltrInput
           type="text"
           name="filter"
+          
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Find contacts by name"
+          placeholder="Enter search request here"
           value={filter}
-          onChange={onSetFilter}
+          onChange={event => dispatch(filterContact(event))}
         />
-      </div>
+      </FiltrLabel>
     </div>
   );
 };
+
+Filter.propTypes = {
+  filter: PropTypes.string,
+};
+
+export default Filter;
